@@ -1,6 +1,47 @@
-<android.support.v4.view.ViewPager xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/pager"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity" />
+    tools:context=".MainActivity" >
+
+    <RelativeLayout
+        android:id="@+id/relativeLayout1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true" >
+
+        <Button
+            android:id="@+id/buttonGoToMap"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@+id/buttonSearchHistory"
+            android:layout_alignBottom="@+id/buttonSearchHistory"
+            android:layout_marginLeft="69dp"
+            android:layout_toRightOf="@+id/buttonSearchHistory"
+            android:text="@string/map" />
+
+        <Button
+            android:id="@+id/buttonSearchHistory"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginLeft="46dp"
+            android:layout_marginTop="15dp"
+            android:text="@string/search_history" />
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/textViewCurrentTripInfo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/relativeLayout1"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="38dp"
+        android:text="@string/current_trip_info"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
+
+</RelativeLayout>
