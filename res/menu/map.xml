@@ -5,5 +5,8 @@
         android:orderInCategory="100"
         android:showAsAction="never"
         android:title="@string/action_settings"/>
+    
+    <item android:id="@+id/action_my_location" android:title="@string/my_location" android:showAsAction="ifRoom"></item>
+    <item android:id="@+id/action_record_my_location" android:title="@string/record" android:showAsAction="ifRoom"></item>
 
 </menu>

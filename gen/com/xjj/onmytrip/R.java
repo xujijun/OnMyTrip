@@ -186,6 +186,8 @@ containing a value of this type.
         public static final int ic_plusone_tall_off_client=0x7f02001c;
     }
     public static final class id {
+        public static final int action_my_location=0x7f05000f;
+        public static final int action_record_my_location=0x7f050010;
         public static final int action_settings=0x7f05000e;
         public static final int buttonGoToMap=0x7f050007;
         public static final int buttonSearchHistory=0x7f050008;
@@ -205,8 +207,7 @@ containing a value of this type.
     public static final class layout {
         public static final int activity_main=0x7f030000;
         public static final int activity_map=0x7f030001;
-        public static final int fragment_main=0x7f030002;
-        public static final int fragment_search_history=0x7f030003;
+        public static final int fragment_search_history=0x7f030002;
     }
     public static final class menu {
         public static final int main=0x7f090000;
@@ -306,8 +307,9 @@ containing a value of this type.
          */
         public static final int common_signin_button_text_long=0x7f060012;
         public static final int current_trip_info=0x7f06001d;
-        public static final int hello_world=0x7f06001f;
         public static final int map=0x7f06001c;
+        public static final int my_location=0x7f06001f;
+        public static final int record=0x7f060020;
         public static final int search_history=0x7f06001b;
         public static final int title_activity_map=0x7f06001e;
     }

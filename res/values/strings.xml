@@ -2,11 +2,12 @@
 <resources>
 
     <string name="app_name">OnMyTrip</string>
-    <string name="action_settings">Settings</string>
+    <string name="action_settings">设置</string>
     <string name="search_history">查历史</string>
     <string name="map">地图</string>
     <string name="current_trip_info">当前行程信息</string>
-    <string name="title_activity_map">MapActivity</string>
-    <string name="hello_world">Hello world!</string>
+    <string name="title_activity_map">地图</string>
+    <string name="my_location">我的位置</string>
+    <string name="record">记录</string>
 
 </resources>
