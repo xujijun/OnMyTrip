@@ -9,5 +9,6 @@
     <string name="title_activity_map">地图</string>
     <string name="my_location">我的位置</string>
     <string name="record">记录</string>
+    <string name="location_record">位置记录</string>
 
 </resources>

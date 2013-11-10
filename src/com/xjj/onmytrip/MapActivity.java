@@ -1,12 +1,11 @@
 package com.xjj.onmytrip;
 
-import android.app.DatePickerDialog;
-import android.content.Intent;
 import android.location.Location;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
@@ -28,6 +27,8 @@ public class MapActivity extends FragmentActivity
     LocationListener,
     OnMyLocationButtonClickListener {
 
+	TextView textViewMessage;
+		
 	//Note that this may be null if the Google Play services APK is not available.
     private GoogleMap mMap;
     
@@ -46,6 +47,8 @@ public class MapActivity extends FragmentActivity
 		setContentView(R.layout.activity_map);
 		
 		getActionBar().setDisplayHomeAsUpEnabled(true);//设置返回按钮
+		
+		textViewMessage = (TextView) findViewById(R.id.textViewMessage);
 		
         //setUpMapIfNeeded(); //done in onResume
 	}
@@ -124,7 +127,8 @@ public class MapActivity extends FragmentActivity
     private void setUpMap() {
         mMap.addMarker(new MarkerOptions().position(new LatLng(23, 113)).title("Marker"));
         
-		mMap.setMyLocationEnabled(true);
+        mMap.getUiSettings().setCompassEnabled(true);
+ 		mMap.setMyLocationEnabled(true);
 		mMap.setOnMyLocationButtonClickListener(this);
     }
 
