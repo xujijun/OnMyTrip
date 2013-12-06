@@ -55,9 +55,10 @@ int drawable ic_plusone_medium_off_client 0x7f020019
 int drawable ic_plusone_small_off_client 0x7f02001a
 int drawable ic_plusone_standard_off_client 0x7f02001b
 int drawable ic_plusone_tall_off_client 0x7f02001c
-int id action_my_location 0x7f050011
-int id action_record_my_location 0x7f050012
-int id action_settings 0x7f050010
+int id action_my_location 0x7f050012
+int id action_new_trip 0x7f050010
+int id action_record_my_location 0x7f050013
+int id action_settings 0x7f050011
 int id buttonGoToMap 0x7f050008
 int id buttonSearchHistory 0x7f050007
 int id button_record_location 0x7f050009
@@ -106,13 +107,14 @@ int string common_google_play_services_update_text 0x7f060008
 int string common_google_play_services_update_title 0x7f060007
 int string common_signin_button_text 0x7f060011
 int string common_signin_button_text_long 0x7f060012
-int string current_trip_info 0x7f06001d
-int string location_record 0x7f060021
-int string map 0x7f06001c
-int string my_location 0x7f06001f
+int string current_trip_info 0x7f06001b
+int string location_record 0x7f06001c
+int string map 0x7f06001d
+int string my_location 0x7f06001e
+int string new_trip 0x7f06001f
 int string record 0x7f060020
-int string search_history 0x7f06001b
-int string title_activity_map 0x7f06001e
+int string search_history 0x7f060021
+int string title_activity_map 0x7f060022
 int style AppBaseTheme 0x7f080000
 int style AppTheme 0x7f080001
 int[] styleable MapAttrs { 0x7f010000, 0x7f010001, 0x7f010002, 0x7f010003, 0x7f010004, 0x7f010005, 0x7f010006, 0x7f010007, 0x7f010008, 0x7f010009, 0x7f01000a, 0x7f01000b, 0x7f01000c, 0x7f01000d }

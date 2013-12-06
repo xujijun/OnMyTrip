@@ -3,12 +3,13 @@
 
     <string name="app_name">OnMyTrip</string>
     <string name="action_settings">设置</string>
-    <string name="search_history">查历史</string>
-    <string name="map">地图</string>
     <string name="current_trip_info">当前行程信息</string>
-    <string name="title_activity_map">地图</string>
-    <string name="my_location">我的位置</string>
-    <string name="record">记录</string>
     <string name="location_record">位置记录</string>
-
+    <string name="map">地图</string>
+    <string name="my_location">我的位置</string>
+    <string name="new_trip">新行程</string>
+    <string name="record">记录</string>
+    <string name="search_history">查历史</string>
+    <string name="title_activity_map">地图</string>
+    
 </resources>
