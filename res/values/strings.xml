@@ -11,5 +11,7 @@
     <string name="record">记录</string>
     <string name="search_history">查历史</string>
     <string name="title_activity_map">地图</string>
-    
+    <string name="title_activity_trip_list">行程列表</string>
+    <string name="hello_world">Hello world!</string>
+
 </resources>

@@ -1,9 +1,32 @@
 package com.xjj.onmytrip.db;
 
-public class DBHelper {
+import android.content.Context;
+import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteOpenHelper;
 
-	public DBHelper() {
-		// TODO Auto-generated constructor stub
+public class DBHelper extends SQLiteOpenHelper  {
+
+    private static final String DATABASE_NAME = "onMyTrip.db";  
+    private static final int DATABASE_VERSION = 1;  
+      
+    public DBHelper(Context context) {  
+        //CursorFactory设置为null,使用默认值  
+        super(context, DATABASE_NAME, null, DATABASE_VERSION);  
+    } 
+    
+	@Override
+	public void onCreate(SQLiteDatabase db) {
+		String sql = "create table if not exists trips(id integer primary key autoincrement, trip_name varchar, user_id varchar, start_time datetime)";
+		db.execSQL(sql);
+		
+		sql = "create table if not exists users(user_id varchar primary key, password char(32), nick_name varchar, register_date datetime, current_trip_id integer)";
+		db.execSQL(sql);
+	}
+
+	@Override
+	public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

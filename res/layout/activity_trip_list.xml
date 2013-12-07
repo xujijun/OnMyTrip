@@ -1,0 +1,52 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context=".TripListActivity" >
+
+    <LinearLayout
+        android:id="@+id/LinearLayout1"
+        android:orientation="horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true" >
+
+        <TextView
+            android:id="@+id/textView1"
+            android:layout_width="30dp"  
+            android:layout_height="wrap_content"
+            android:text="ID" />
+        
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="100dp"  
+            android:layout_height="wrap_content"
+            android:text="旅程名称" />
+        
+                <TextView
+            android:id="@+id/textView3"
+            android:layout_width="70dp"  
+            android:layout_height="wrap_content"
+            android:text="用户ID" />
+                
+        <TextView
+            android:id="@+id/textView4"
+            android:layout_width="150dp"  
+            android:layout_height="wrap_content"
+            android:text="旅程开始时间" />
+    </LinearLayout>
+
+    <ListView
+        android:id="@+id/list"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/LinearLayout1" >
+    </ListView>
+
+</RelativeLayout>

@@ -41,8 +41,12 @@
         </activity>
         <activity
             android:name="com.xjj.onmytrip.MapActivity"
-            android:label="@string/title_activity_map" 
-            android:parentActivityName="com.xjj.onmytrip.MainActivity">
+            android:label="@string/title_activity_map"
+            android:parentActivityName="com.xjj.onmytrip.MainActivity" >
+        </activity>
+        <activity
+            android:name="com.xjj.onmytrip.TripListActivity"
+            android:label="@string/title_activity_trip_list" >
         </activity>
     </application>
 

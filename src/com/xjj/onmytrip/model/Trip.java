@@ -3,14 +3,91 @@
  */
 package com.xjj.onmytrip.model;
 
-import java.util.Date;
+import android.content.ContentValues;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 
 public class Trip {
-
+	//id integer primary key autoincrement, trip_name varchar, user_id varchar, start_time datetime
 	private int id;
-	private String trip_name;
-	private String user_id;
-	private Date start_time;
+	private String tripName;
+	private String userID;
+	private String startTime;
+	
+	/**
+	 * Clone content from another trip
+	 * @param Trip to be cloned to here
+	 */
+	public void cloneFrom(Trip t){
+		this.id = t.getId();
+		this.tripName = t.getTripName();
+		this.userID = t.getUserID();
+		this.startTime = t.getStartTime();
+	}
+	
+	public static Cursor getAllTrips(SQLiteDatabase db){
+		 Cursor cursor = db.rawQuery("select id as _id, trip_name, user_id, start_time from trips", null);  
+	     // 这里数据库不能关闭  
+	     return cursor;  
+	}
+	
+	
+	/**
+	 * Search a user's current trip.
+	 * @param userID
+	 * @return a Trip
+	 */
+	public static Trip findCurrentTripByUserID(SQLiteDatabase db, String userID){
+		Trip t = null;
+		Cursor c = db.rawQuery("SELECT * FROM trips where id=(select current_trip_id from users where user_id=?)", new String[]{userID});
+		if(c.moveToNext()){
+			t = new Trip();
+			t.setId(c.getInt(c.getColumnIndex("id")));
+			t.setTripName(c.getString(c.getColumnIndex("trip_name")));
+			t.setStartTime(c.getString(c.getColumnIndex("start_time")));
+			t.setUserID(userID);
+		}	
+		return t;
+	}
+	
+	/**
+	 * insert this trip into the database table trips
+	 * @return true if succeeded, false if failed
+	 */
+	public boolean saveTrip(SQLiteDatabase db){
+        //ContentValues以键值对的形式存放数据  
+        ContentValues values = new ContentValues();  
+        values.put("trip_name", tripName);  
+        values.put("user_id", userID);
+        values.put("start_time", startTime);  
+        
+        //插入ContentValues中的数据  
+		long rs;
+		try {
+			rs = db.insert("trips", null, values);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			rs = -1;
+		}  
+		
+		return (rs != -1); //if rs==-1, return false.
+	}
+
+
+	/**
+	 * get the max (i.e. latest) Trip ID from table trips
+	 * @return
+	 */
+	public static int getMaxTripID(SQLiteDatabase db){
+		int id = -1;
+		Cursor c = db.rawQuery("SELECT max(id) FROM trips", null);
+		if(c.moveToNext()){
+			id = c.getInt(0);
+		}
+		return id;
+	}
+	
 	
 	public int getId() {
 		return id;
@@ -18,24 +95,25 @@ public class Trip {
 	public void setId(int id) {
 		this.id = id;
 	}
-	public String getTrip_name() {
-		return trip_name;
+	public String getTripName() {
+		return tripName;
 	}
-	public void setTrip_name(String trip_name) {
-		this.trip_name = trip_name;
+	public void setTripName(String tripName) {
+		this.tripName = tripName;
 	}
-	public String getUser_id() {
-		return user_id;
+	public String getUserID() {
+		return userID;
 	}
-	public void setUser_id(String user_id) {
-		this.user_id = user_id;
+	public void setUserID(String userID) {
+		this.userID = userID;
 	}
-	public Date getStart_time() {
-		return start_time;
+	public String getStartTime() {
+		return startTime;
 	}
-	public void setStart_time(Date start_time) {
-		this.start_time = start_time;
+	public void setStartTime(String startTime) {
+		this.startTime = startTime;
 	}
 	
+
 
 }

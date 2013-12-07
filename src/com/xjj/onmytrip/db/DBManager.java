@@ -1,9 +1,20 @@
 package com.xjj.onmytrip.db;
 
-public class DBManager {
+import android.content.Context;
+import android.database.sqlite.SQLiteDatabase;
 
-	public DBManager() {
-		// TODO Auto-generated constructor stub
+public class DBManager {
+    private DBHelper helper;  
+    private SQLiteDatabase db; 
+    
+	public DBManager(Context context) {
+		 helper = new DBHelper(context);  
+	     db = helper.getWritableDatabase();  
 	}
+	
+	public SQLiteDatabase getDb() {
+		return db;
+	}
+
 
 }
