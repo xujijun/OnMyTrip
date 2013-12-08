@@ -3,6 +3,9 @@
  */
 package com.xjj.onmytrip.model;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -15,6 +18,14 @@ public class Trip {
 	private String startTime;
 	
 	/**
+	 * Set the current time as start time when a new trip is created
+	 */
+	public Trip() {
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");  
+		startTime = sdf.format(new Date());
+	}
+
+	/**
 	 * Clone content from another trip
 	 * @param Trip to be cloned to here
 	 */
@@ -25,9 +36,22 @@ public class Trip {
 		this.startTime = t.getStartTime();
 	}
 	
-	public static Cursor getAllTrips(SQLiteDatabase db){
-		 Cursor cursor = db.rawQuery("select id as _id, trip_name, user_id, start_time from trips", null);  
-	     // 这里数据库不能关闭  
+	/**
+	 * Get all trips
+	 * @param db
+	 * @param userID: search those belong to a specified userID
+	 * @return
+	 */
+	public static Cursor getAllTrips(SQLiteDatabase db, String userID){
+		Cursor cursor;
+		
+		if(userID == null)
+			 cursor = db.rawQuery("select id as _id, trip_name, user_id, start_time from trips", null);  
+		else
+			cursor = db.rawQuery("select id as _id, trip_name, user_id, start_time from trips where user_id=?", new String[]{userID});  
+	    
+		 
+		 // 这里数据库不能关闭
 	     return cursor;  
 	}
 	

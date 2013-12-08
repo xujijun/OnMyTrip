@@ -13,5 +13,6 @@
     <string name="title_activity_map">地图</string>
     <string name="title_activity_trip_list">行程列表</string>
     <string name="hello_world">Hello world!</string>
+    <string name="title_activity_footprint_list">FootprintListActivity</string>
 
 </resources>

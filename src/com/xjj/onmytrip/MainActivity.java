@@ -36,6 +36,7 @@ public class MainActivity extends FragmentActivity{
 	EditText EditTextNewTripName;
 	
 	String currentTripName;
+	int currentTripID;
 	String currentUserID;
 	String currentUserName;
 	
@@ -58,6 +59,7 @@ public class MainActivity extends FragmentActivity{
 		//initialize variables
 		pref = PreferenceManager.getDefaultSharedPreferences(MainActivity.this);
 		currentTripName = pref.getString("currentTripName", "default_TripName");
+		currentTripID = pref.getInt("currentTripID", -1);
 		currentUserID = pref.getString("currentUserID", "default_userID");
 		currentUserName = pref.getString("currentUserName", "default_userName");
 		
@@ -87,27 +89,26 @@ public class MainActivity extends FragmentActivity{
 		
 		
 		//test... new user register:
-//		User u = new User();
-//		u.setUserID("MyNewName6");
-//		u.setNickName("My Nick Name");
-//		u.setPassword("My Password");
-//		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");  
-//		u.setRegisterDate(sdf.format(new Date()));
-//		if(currentTrip!=null)
-//			u.setCurrentTripID(currentTrip.getId());
-//		
-//		if(!u.saveUser(dbm.getDb())){
-//			Toast.makeText(getApplicationContext(), "用户名已经存在。", Toast.LENGTH_LONG).show();
-//		}else{
-//			currentUserID = u.getUserID();
-//			
-//			//Save into preference
-//			Editor editor = pref.edit();
-//			editor.putString("currentUserID", currentUserID);
-//			editor.commit();
-//		}
-//		
-//		currentUser = User.findUserByID(dbm.getDb(), u.getUserID());
+		User u = new User();
+		u.setUserID("MyNewName7");
+		u.setNickName("My Nick Name");
+		u.setPassword("My Password");
+
+		if(currentTrip!=null)
+			u.setCurrentTripID(currentTrip.getId());
+		
+		if(!u.saveUser(dbm.getDb())){
+			Toast.makeText(getApplicationContext(), "用户名已经存在。", Toast.LENGTH_LONG).show();
+		}else{
+			currentUserID = u.getUserID();
+			
+			//Save into preference
+			Editor editor = pref.edit();
+			editor.putString("currentUserID", currentUserID);
+			editor.commit();
+		}
+		
+		currentUser = User.findUserByID(dbm.getDb(), u.getUserID());
 		
 		updateView();
 		//textViewCurrentTripInfo.append("；当前用户：" + u2.toString());
@@ -152,8 +153,7 @@ public class MainActivity extends FragmentActivity{
 				Trip t = new Trip();
 				t.setTripName(newTripName);
 				t.setUserID(currentUserID);
-				SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");  
-				t.setStartTime(sdf.format(new Date()));
+
 
 				//Save into database
 				if(t.saveTrip(dbm.getDb())){
@@ -167,7 +167,7 @@ public class MainActivity extends FragmentActivity{
 						
 						//Save into preference
 						Editor editor = pref.edit();
-						editor.putString("currentTripID", String.valueOf(id));
+						editor.putInt("currentTripID", id);
 						editor.commit();
 						
 						currentUser.setCurrentTripID(currentTrip.getId());
@@ -189,7 +189,8 @@ public class MainActivity extends FragmentActivity{
 	}
 
 	private void updateView(){
-		textViewCurrentTripInfo.setText("当前行程：" + currentTripName + "；当前用户：" + currentUser.toString());
+		if(currentUser != null)
+		   textViewCurrentTripInfo.setText("当前行程：" + currentTripName + "；当前用户：" + currentUser.toString());
 	}
 	
 }

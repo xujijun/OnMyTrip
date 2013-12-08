@@ -1,7 +1,9 @@
 package com.xjj.onmytrip;
 
+import android.content.SharedPreferences;
 import android.location.Location;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.app.FragmentActivity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -19,6 +21,8 @@ import com.google.android.gms.maps.GoogleMap.OnMyLocationButtonClickListener;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.xjj.onmytrip.db.DBManager;
+import com.xjj.onmytrip.model.Footprint;
 
 public class MapActivity extends FragmentActivity
 	implements 
@@ -28,6 +32,11 @@ public class MapActivity extends FragmentActivity
     OnMyLocationButtonClickListener {
 
 	TextView textViewMessage;
+    private DBManager dbm;
+	SharedPreferences pref;
+
+	int currentTripID;
+
 		
 	//Note that this may be null if the Google Play services APK is not available.
     private GoogleMap mMap;
@@ -50,6 +59,11 @@ public class MapActivity extends FragmentActivity
 		
 		textViewMessage = (TextView) findViewById(R.id.textViewMessage);
 		
+		dbm = new DBManager(MapActivity.this);
+
+		pref = PreferenceManager.getDefaultSharedPreferences(MapActivity.this);
+		currentTripID = pref.getInt("currentTripID", -1);
+
         //setUpMapIfNeeded(); //done in onResume
 	}
 	
@@ -91,14 +105,19 @@ public class MapActivity extends FragmentActivity
     	case R.id.action_my_location:	//移到我的位置
     		if (mLocationClient != null && mLocationClient.isConnected()) {
                 String msg = "我的位置:" + mLocationClient.getLastLocation();
-                Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_LONG).show();
+                //Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_LONG).show();
+                textViewMessage.setText(msg);
             }
-    		//TODO
     		
     		return true;
     		
     	case R.id.action_record_my_location: //记录我的位置
-    		//TODO
+    		if (mLocationClient != null && mLocationClient.isConnected()) {
+    			Footprint fp = new Footprint();
+    			fp.setLocation(mLocationClient.getLastLocation());
+    			fp.setTripID(currentTripID);
+    			fp.saveFootprint(dbm.getDb());
+    		}
     		
     		return true;
     	default:
@@ -154,7 +173,7 @@ public class MapActivity extends FragmentActivity
 	@Override
 	public void onLocationChanged(Location arg0) {
 		// TODO Auto-generated method stub
-		//mMessageView.setText("Location = " + location);
+		textViewMessage.setText("Location = " + arg0);
 	}
 
 	@Override

@@ -186,49 +186,62 @@ containing a value of this type.
         public static final int ic_plusone_tall_off_client=0x7f02001c;
     }
     public static final class id {
-        public static final int LinearLayout1=0x7f05000d;
-        public static final int LinearLayout2=0x7f050018;
-        public static final int action_my_location=0x7f05001d;
-        public static final int action_new_trip=0x7f05001b;
-        public static final int action_record_my_location=0x7f05001e;
-        public static final int action_settings=0x7f05001c;
-        public static final int buttonGoToMap=0x7f050008;
-        public static final int buttonSearchHistory=0x7f050007;
-        public static final int button_record_location=0x7f050009;
-        public static final int editText1=0x7f050013;
+        public static final int LinearLayout1=0x7f05000f;
+        public static final int LinearLayout2=0x7f050022;
+        public static final int LinearLayout3=0x7f050015;
+        public static final int LinearLayout4=0x7f05001a;
+        public static final int LinearLayout5=0x7f050016;
+        public static final int ListViewFootprints=0x7f050006;
+        public static final int ListViewHello=0x7f050005;
+        public static final int ListViewTrips=0x7f050014;
+        public static final int action_my_location=0x7f050027;
+        public static final int action_new_trip=0x7f050026;
+        public static final int action_record_my_location=0x7f050028;
+        public static final int action_settings=0x7f050025;
+        public static final int address=0x7f05001d;
+        public static final int buttonGoToMap=0x7f05000a;
+        public static final int buttonSearchHistory=0x7f050009;
+        public static final int button_record_location=0x7f05000b;
+        public static final int date_time=0x7f050019;
+        public static final int editText1=0x7f05001e;
+        public static final int footprint_id=0x7f050017;
         public static final int hybrid=0x7f050004;
-        public static final int list=0x7f050012;
-        public static final int listView1=0x7f050015;
-        public static final int map=0x7f05000c;
+        public static final int latitude=0x7f05001b;
+        public static final int listView1=0x7f050020;
+        public static final int longitude=0x7f05001c;
+        public static final int map=0x7f05000e;
         public static final int none=0x7f050000;
         public static final int normal=0x7f050001;
-        public static final int pager=0x7f050005;
-        public static final int relativeLayout1=0x7f050006;
+        public static final int pager=0x7f050007;
+        public static final int relativeLayout1=0x7f050008;
         public static final int satellite=0x7f050002;
-        public static final int searchView1=0x7f050014;
-        public static final int start_time=0x7f05001a;
+        public static final int searchView1=0x7f05001f;
+        public static final int start_time=0x7f050024;
         public static final int terrain=0x7f050003;
-        public static final int textView1=0x7f05000e;
-        public static final int textView2=0x7f05000f;
-        public static final int textView3=0x7f050010;
-        public static final int textView4=0x7f050011;
-        public static final int textViewCurrentTripInfo=0x7f05000a;
-        public static final int textViewMessage=0x7f05000b;
-        public static final int trip_id=0x7f050016;
-        public static final int trip_name=0x7f050019;
-        public static final int user_id=0x7f050017;
+        public static final int textView1=0x7f050010;
+        public static final int textView2=0x7f050011;
+        public static final int textView3=0x7f050012;
+        public static final int textView4=0x7f050013;
+        public static final int textViewCurrentTripInfo=0x7f05000c;
+        public static final int textViewMessage=0x7f05000d;
+        public static final int trip_id=0x7f050018;
+        public static final int trip_name=0x7f050023;
+        public static final int user_id=0x7f050021;
     }
     public static final class layout {
-        public static final int activity_main=0x7f030000;
-        public static final int activity_map=0x7f030001;
-        public static final int activity_trip_list=0x7f030002;
-        public static final int fragment_search_history=0x7f030003;
-        public static final int trip_item=0x7f030004;
+        public static final int activity_footprint_list=0x7f030000;
+        public static final int activity_main=0x7f030001;
+        public static final int activity_map=0x7f030002;
+        public static final int activity_trip_list=0x7f030003;
+        public static final int footprint_item=0x7f030004;
+        public static final int fragment_search_history=0x7f030005;
+        public static final int trip_item=0x7f030006;
     }
     public static final class menu {
-        public static final int main=0x7f090000;
-        public static final int map=0x7f090001;
-        public static final int trip_list=0x7f090002;
+        public static final int footprint_list=0x7f090000;
+        public static final int main=0x7f090001;
+        public static final int map=0x7f090002;
+        public static final int trip_list=0x7f090003;
     }
     public static final class string {
         public static final int action_settings=0x7f06001a;
@@ -331,6 +344,7 @@ containing a value of this type.
         public static final int new_trip=0x7f06001f;
         public static final int record=0x7f060020;
         public static final int search_history=0x7f060021;
+        public static final int title_activity_footprint_list=0x7f060025;
         public static final int title_activity_map=0x7f060022;
         public static final int title_activity_trip_list=0x7f060023;
     }

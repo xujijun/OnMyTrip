@@ -1,5 +1,8 @@
 package com.xjj.onmytrip.model;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -14,6 +17,17 @@ public class User {
 	private String registerDate;
 	int     currentTripID;
 	
+	
+	/**
+	 * Set the register date as current time when a user is created
+	 */
+	public User() {
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");  
+		registerDate = sdf.format(new Date());
+	}
+
+
+
 	public String toString(){
 		return "userID: " + userID + " password: " + password + " nickName: " + nickName + " registerDate: " + registerDate + " currentTripID: " + String.valueOf(currentTripID);
 	}

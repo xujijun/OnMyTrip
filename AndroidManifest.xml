@@ -48,6 +48,10 @@
             android:name="com.xjj.onmytrip.TripListActivity"
             android:label="@string/title_activity_trip_list" >
         </activity>
+        <activity
+            android:name="com.xjj.onmytrip.FootprintListActivity"
+            android:label="@string/title_activity_footprint_list" >
+        </activity>
     </application>
 
 </manifest>

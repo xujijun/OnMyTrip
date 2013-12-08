@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal" >
+
+    <LinearLayout
+        android:id="@+id/LinearLayout3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical" >
+
+        <LinearLayout
+            android:id="@+id/LinearLayout5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal" >
+
+            <TextView
+                android:id="@+id/footprint_id"
+                android:layout_width="30dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="3dip"
+                android:text="id" />
+
+            <TextView
+                android:id="@+id/trip_id"
+                android:layout_width="30dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="3dip"
+                android:text="trip_id" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/date_time"
+            android:layout_width="90dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="3dip"
+            android:text="date_time" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/LinearLayout4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical" >
+
+        <TextView
+            android:id="@+id/latitude"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="3dip"
+            android:text="latitude" />
+
+        <TextView
+            android:id="@+id/longitude"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="3dip"
+            android:text="longitude" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/address"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="3dip"
+        android:text="address" />
+
+</LinearLayout>

@@ -7,7 +7,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 public class DBHelper extends SQLiteOpenHelper  {
 
     private static final String DATABASE_NAME = "onMyTrip.db";  
-    private static final int DATABASE_VERSION = 1;  
+    private static final int DATABASE_VERSION = 2;  
       
     public DBHelper(Context context) {  
         //CursorFactory设置为null,使用默认值  
@@ -21,11 +21,16 @@ public class DBHelper extends SQLiteOpenHelper  {
 		
 		sql = "create table if not exists users(user_id varchar primary key, password char(32), nick_name varchar, register_date datetime, current_trip_id integer)";
 		db.execSQL(sql);
+		
+		sql = "create table if not exists footprints(id integer primary key, date_time datetime, latitude decimal(10,6), longitude decimal(10,6), address varchar, trip_id integer)";
+		db.execSQL(sql);
 	}
 
 	@Override
 	public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
 		// TODO Auto-generated method stub
+		String sql = "create table if not exists footprints(id integer primary key, date_time datetime, latitude decimal(10,6), longitude decimal(10,6), address varchar, trip_id integer)";
+		db.execSQL(sql);
 		
 	}
 
