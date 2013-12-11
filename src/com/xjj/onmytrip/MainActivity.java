@@ -1,32 +1,26 @@
 package com.xjj.onmytrip;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
-import com.xjj.onmytrip.db.DBManager;
-import com.xjj.onmytrip.model.Trip;
-import com.xjj.onmytrip.model.User;
-
 import android.app.AlertDialog;
-import android.app.AlertDialog.Builder;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
-import android.database.Cursor;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.FragmentActivity;
-import android.text.Editable;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.xjj.onmytrip.db.DBManager;
+import com.xjj.onmytrip.model.Trip;
+import com.xjj.onmytrip.model.User;
 
 public class MainActivity extends FragmentActivity{
 
@@ -82,33 +76,34 @@ public class MainActivity extends FragmentActivity{
 		buttonGoToMap.setOnClickListener(new OnClickListener() { //打开地图
 			@Override
 			public void onClick(View v) {
-				startActivity(new Intent(MainActivity.this, MapActivity.class));
+				//startActivity(new Intent(MainActivity.this, MapActivity.class)); //Google地图
+				startActivity(new Intent(MainActivity.this, AMapActivity.class)); //高德地图
 			}
 		});
 
 		
 		
 		//test... new user register:
-		User u = new User();
-		u.setUserID("MyNewName7");
-		u.setNickName("My Nick Name");
-		u.setPassword("My Password");
-
-		if(currentTrip!=null)
-			u.setCurrentTripID(currentTrip.getId());
-		
-		if(!u.saveUser(dbm.getDb())){
-			Toast.makeText(getApplicationContext(), "用户名已经存在。", Toast.LENGTH_LONG).show();
-		}else{
-			currentUserID = u.getUserID();
-			
-			//Save into preference
-			Editor editor = pref.edit();
-			editor.putString("currentUserID", currentUserID);
-			editor.commit();
-		}
-		
-		currentUser = User.findUserByID(dbm.getDb(), u.getUserID());
+//		User u = new User();
+//		u.setUserID("xujijun");
+//		u.setNickName("许");
+//		u.setPassword("Gle250532");
+//
+//		if(currentTrip!=null)
+//			u.setCurrentTripID(currentTrip.getId());
+//		
+//		if(!u.saveUser(dbm.getDb())){
+//			Toast.makeText(getApplicationContext(), "用户名已经存在。", Toast.LENGTH_LONG).show();
+//		}else{
+//			currentUserID = u.getUserID();
+//			
+//			//Save into preference
+//			Editor editor = pref.edit();
+//			editor.putString("currentUserID", currentUserID);
+//			editor.commit();
+//		}
+//	
+//		currentUser = User.findUserByID(dbm.getDb(), u.getUserID());
 		
 		updateView();
 		//textViewCurrentTripInfo.append("；当前用户：" + u2.toString());
@@ -120,6 +115,7 @@ public class MainActivity extends FragmentActivity{
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.main, menu);
+		//menu.add(1, 1, 0, "退出");
 		return true;
 	}
 
@@ -192,5 +188,31 @@ public class MainActivity extends FragmentActivity{
 		if(currentUser != null)
 		   textViewCurrentTripInfo.setText("当前行程：" + currentTripName + "；当前用户：" + currentUser.toString());
 	}
+
+	@Override
+	public boolean onKeyDown(int keyCode, KeyEvent event) {
+		if(keyCode==KeyEvent.KEYCODE_BACK){
+			AlertDialog.Builder ab=new AlertDialog.Builder(this);
+			  ab.setTitle("退出提示");//设定标题
+			  ab.setMessage("您真的要退出吗?");//设定内容
+			  ab.setPositiveButton("确定", new DialogInterface.OnClickListener()
+			  {
+	         	@Override
+				public void onClick(DialogInterface dialog, int which) {
+					finish();
+	         		//dialog.cancel();
+					//exit();
+				}
+			  });
+			  ab.setNegativeButton("取消", null);
+			  ab.show();
+			  return true;//已经处理了用户的按键这样就不会退出
+		}
+		
+		
+		return super.onKeyDown(keyCode, event);
+	}
+	
+	
 	
 }

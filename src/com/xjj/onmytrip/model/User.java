@@ -29,7 +29,8 @@ public class User {
 
 
 	public String toString(){
-		return "userID: " + userID + " password: " + password + " nickName: " + nickName + " registerDate: " + registerDate + " currentTripID: " + String.valueOf(currentTripID);
+		//return "userID: " + userID + " password: " + password + " nickName: " + nickName + " registerDate: " + registerDate + " currentTripID: " + String.valueOf(currentTripID);
+		return "userID: " + userID + " 昵称: " + nickName + " 注册日期: " + registerDate + " 当前的TripID: " + String.valueOf(currentTripID);
 	}
 	
 

@@ -8,5 +8,7 @@
     
     <item android:id="@+id/action_my_location" android:title="@string/my_location" android:showAsAction="ifRoom"></item>
     <item android:id="@+id/action_record_my_location" android:title="@string/record" android:showAsAction="ifRoom"></item>
+    
+    <item android:id="@+id/action_search_history" android:title="@string/search_history" android:showAsAction="never"></item>
 
 </menu>

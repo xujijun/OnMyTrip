@@ -29,7 +29,7 @@ public class Footprint {
 	public boolean saveFootprint(SQLiteDatabase db){
         //ContentValues以键值对的形式存放数据  
         ContentValues values = new ContentValues();  
-        values.put("id", id);  
+        //ListViewFootprintsListViewFootprints.put("id", id);  
         values.put("date_time", dateTime);
         values.put("latitude", latitude);  
         values.put("longitude", longitude);

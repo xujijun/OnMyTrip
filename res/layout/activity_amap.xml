@@ -6,21 +6,17 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context=".FootprintListActivity" >
+    tools:context=".AMapActivity" >
 
     <TextView
-        android:id="@+id/ListViewHello"
+        android:id="@+id/textViewAMapMessage"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/title_activity_footprint_list" />
+        android:text="@string/hello_world" />
     
-    
-    <ListView
-        android:id="@android:id/list"
+     <com.amap.api.maps.MapView
+        android:id="@+id/map"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_below="@+id/ListViewHello" >
-    </ListView>
+        android:layout_height="match_parent" />
 
 </RelativeLayout>

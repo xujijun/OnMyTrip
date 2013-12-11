@@ -116,7 +116,12 @@ public class MapActivity extends FragmentActivity
     			Footprint fp = new Footprint();
     			fp.setLocation(mLocationClient.getLastLocation());
     			fp.setTripID(currentTripID);
-    			fp.saveFootprint(dbm.getDb());
+    			
+    			if(fp.saveFootprint(dbm.getDb())){
+    				Toast.makeText(getApplicationContext(), "成功保存了当前位置。", Toast.LENGTH_LONG).show();
+    			}else{
+    				Toast.makeText(getApplicationContext(), "当前位置保存失败！", Toast.LENGTH_LONG).show();
+    			}
     		}
     		
     		return true;
@@ -172,20 +177,17 @@ public class MapActivity extends FragmentActivity
 
 	@Override
 	public void onLocationChanged(Location arg0) {
-		// TODO Auto-generated method stub
 		textViewMessage.setText("Location = " + arg0);
 	}
 
 	@Override
 	public void onConnectionFailed(ConnectionResult arg0) {
-		// TODO Auto-generated method stub
 		Toast.makeText(this, "链接错误：" + arg0.toString(), Toast.LENGTH_SHORT).show();
 	}
 
 	//Callback called when connected to GCore. Implementation of {@link ConnectionCallbacks}.
 	@Override
 	public void onConnected(Bundle arg0) {
-		// TODO Auto-generated method stub
 		 mLocationClient.requestLocationUpdates(
 	                REQUEST,
 	                this);  // LocationListener
