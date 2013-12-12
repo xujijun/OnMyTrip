@@ -3,6 +3,7 @@ package com.xjj.onmytrip;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.database.Cursor;
 import android.graphics.Color;
 import android.location.Location;
 import android.os.Bundle;
@@ -19,7 +20,11 @@ import com.amap.api.location.LocationProviderProxy;
 import com.amap.api.maps.AMap;
 import com.amap.api.maps.LocationSource;
 import com.amap.api.maps.MapView;
+import com.amap.api.maps.AMap.OnMarkerClickListener;
 import com.amap.api.maps.model.BitmapDescriptorFactory;
+import com.amap.api.maps.model.LatLng;
+import com.amap.api.maps.model.Marker;
+import com.amap.api.maps.model.MarkerOptions;
 import com.amap.api.maps.model.MyLocationStyle;
 import com.xjj.onmytrip.R;
 import com.xjj.onmytrip.db.DBManager;
@@ -29,7 +34,7 @@ import com.xjj.onmytrip.model.Footprint;
  * AMapV2地图中简单介绍显示定位小蓝点
  */
 public class AMapActivity extends Activity implements LocationSource,
-		AMapLocationListener {
+		AMapLocationListener, OnMarkerClickListener {
 	private AMap aMap;
 	private MapView mapView;
 	private OnLocationChangedListener mListener;
@@ -38,6 +43,7 @@ public class AMapActivity extends Activity implements LocationSource,
 	TextView textViewMessage;
     private DBManager dbm;
 	SharedPreferences pref;
+	Cursor cursor;
 
 	int currentTripID;
 
@@ -50,6 +56,7 @@ public class AMapActivity extends Activity implements LocationSource,
 		getActionBar().setDisplayHomeAsUpEnabled(true);//设置返回按钮
 		
 		textViewMessage = (TextView) findViewById(R.id.textViewAMapMessage);
+		textViewMessage.setText("高德地图");
 		
 		dbm = new DBManager(AMapActivity.this);
 
@@ -59,8 +66,43 @@ public class AMapActivity extends Activity implements LocationSource,
 		mapView = (MapView) findViewById(R.id.map);
 		mapView.onCreate(savedInstanceState);// 此方法必须重写
 		init();
+		
+		
+		Intent intent = getIntent();  
+        int temp =(int) intent.getLongExtra("tripID", -1); //Note: long
+        if(temp!=-1){
+        	currentTripID = temp;
+        	cursor = Footprint.getAllFootprints(dbm.getDb(), String.valueOf(currentTripID));
+        	drawMarkers(cursor);
+        }
 	}
 
+	
+	public void drawMarkers(Cursor c) {
+		if(!c.moveToFirst()) return;
+		
+		do{
+			MarkerOptions mo = new MarkerOptions();
+			LatLng latlng = new LatLng(Float.parseFloat(c.getString(c.getColumnIndex("latitude"))), Float.parseFloat(c.getString(c.getColumnIndex("longitude"))));
+			mo.position(latlng);
+			mo.title(c.getString(c.getColumnIndex("date_time")) + "，" + c.getString(c.getColumnIndex("address")));
+			mo.perspective(true).draggable(true);
+			mo.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_CYAN));
+			
+			aMap.addMarker(mo);
+		}while(c.moveToNext());
+	}
+	
+	/**
+	 * 对marker标注点点击响应事件
+	 */
+	@Override
+	public boolean onMarkerClick(final Marker marker) {
+		//markerText.setText("你点击的是" + marker.getTitle());
+		Toast.makeText(getApplicationContext(), "你点击的是：" + marker.getTitle(), Toast.LENGTH_LONG).show();
+		return false;
+	}
+	
 	/**
 	 * 初始化AMap对象
 	 */
@@ -83,11 +125,17 @@ public class AMapActivity extends Activity implements LocationSource,
 		// myLocationStyle.radiusFillColor(color)//设置圆形的填充颜色
 		// myLocationStyle.anchor(int,int)//设置小蓝点的锚点
 		myLocationStyle.strokeWidth(5);// 设置圆形的边框粗细
-		aMap.setMyLocationStyle(myLocationStyle);
-		aMap.setMyLocationRotateAngle(180);
+		//aMap.setMyLocationStyle(myLocationStyle);
+		//aMap.setMyLocationRotateAngle(180);
+		
 		aMap.setLocationSource(this);// 设置定位监听
 		aMap.getUiSettings().setMyLocationButtonEnabled(true);// 设置默认定位按钮是否显示
 		aMap.setMyLocationEnabled(true);// 设置为true表示显示定位层并可触发定位，false表示隐藏定位层并不可触发定位，默认是false
+		
+		aMap.getUiSettings().setScaleControlsEnabled(true);//设置比例尺
+		aMap.getUiSettings().setCompassEnabled(true);
+		
+		aMap.setOnMarkerClickListener(this); // 设置点击marker事件监听器
 	}
 
 	/**
@@ -208,8 +256,8 @@ public class AMapActivity extends Activity implements LocationSource,
     		
     	case R.id.action_my_location:	//显示我的位置
     		if (aMap!=null) {
-                String msg = "我的位置:" + aMap.getMyLocation();
-                //Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_LONG).show();
+                String msg = "我的位置：" + aMap.getMyLocation();
+                Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_LONG).show();
                 textViewMessage.setText(msg);
             }
     		
@@ -218,21 +266,45 @@ public class AMapActivity extends Activity implements LocationSource,
     	case R.id.action_record_my_location: //记录我的位置
     		if (aMap!=null) {
     			Footprint fp = new Footprint();
-    			fp.setLocation(aMap.getMyLocation());
+    			Location myLoc = aMap.getMyLocation();
+    			
+    			if(myLoc == null){
+    				String msg = "定位尚未成功，请稍后再试。" ;
+                    Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_LONG).show();
+                    textViewMessage.setText(msg);
+                    return true;
+    			}
+    			
+    			fp.setLocation(myLoc);
     			fp.setTripID(currentTripID);
+    			fp.setAddress(myLoc.getExtras().getString("desc"));
     			
     			if(fp.saveFootprint(dbm.getDb())){
-    				Toast.makeText(getApplicationContext(), "成功保存了当前位置。", Toast.LENGTH_LONG).show();
+    				Toast.makeText(getApplicationContext(), "成功保存了当前位置。"+ myLoc, Toast.LENGTH_LONG).show();
     			}else{
     				Toast.makeText(getApplicationContext(), "当前位置保存失败！", Toast.LENGTH_LONG).show();
     			}
     		}
     		
     		return true;
-    		
+    	
+    	case R.id.action_show_footprints:
+    		if (aMap != null && cursor != null) {
+				aMap.clear();
+				drawMarkers(cursor);
+    		}
+    	    return true;
+    	    
+    	case R.id.action_clear_footprints:
+    		if (aMap != null) {
+				aMap.clear();
+    		}
+    	    return true;
+    	    
     	case R.id.action_search_history:
     		startActivity(new Intent(AMapActivity.this, TripListActivity.class));
     	    return true;
+    	    
     	default:
     		return super.onMenuItemSelected(featureId, item);
     	}

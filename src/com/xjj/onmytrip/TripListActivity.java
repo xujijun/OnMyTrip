@@ -1,7 +1,8 @@
 package com.xjj.onmytrip;
 
-import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.ListActivity;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
@@ -12,6 +13,7 @@ import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.CursorAdapter;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
+import android.widget.Toast;
 
 import com.xjj.onmytrip.db.DBManager;
 import com.xjj.onmytrip.model.Trip;
@@ -22,13 +24,16 @@ public class TripListActivity extends ListActivity{
     private SimpleCursorAdapter mAdapter;
     private ListView lv;  
     
+    Cursor cursor;
+    long selectedID;
+    
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_trip_list);
 		
 		dbm = new DBManager(TripListActivity.this);
-		Cursor cursor = Trip.getAllTrips(dbm.getDb(), null);;
+		cursor = Trip.getAllTrips(dbm.getDb(), null);;
 		
 		if(cursor == null)
 			return;
@@ -61,9 +66,34 @@ public class TripListActivity extends ListActivity{
 			@Override
 			public boolean onItemLongClick(AdapterView<?> arg0, View arg1,
 					int arg2, long arg3) {
-				// TODO Auto-generated method stub
 				
-				return false;
+				selectedID = arg3;
+				cursor.moveToPosition(arg2);
+				String selectedTripName = cursor.getString(cursor.getColumnIndex("trip_name"));
+				
+				//Toast.makeText(getApplicationContext(), String.valueOf(arg2) + ";" + String.valueOf(arg3), Toast.LENGTH_LONG).show();
+				
+				AlertDialog.Builder builder = new AlertDialog.Builder(TripListActivity.this);
+				builder.setTitle("删除：" + selectedTripName + " ?");
+				builder.setIcon(android.R.drawable.ic_menu_delete);
+				builder.setNegativeButton("取消", null);
+				builder.setPositiveButton("确定", new DialogInterface.OnClickListener(){
+
+					@SuppressWarnings("deprecation")
+					@Override
+					public void onClick(DialogInterface arg0, int arg1) {
+						if(Trip.deleteTripByID(dbm.getDb(), selectedID)){
+							Toast.makeText(getApplicationContext(), "行程" + String.valueOf(selectedID) + "已经被删除。", Toast.LENGTH_LONG).show();
+							cursor.requery();
+							mAdapter.notifyDataSetChanged();
+						}
+					}
+					
+				});
+				
+				builder.create().show();
+				
+				return true;
 			}
         	
         });

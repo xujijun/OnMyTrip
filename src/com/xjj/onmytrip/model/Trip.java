@@ -98,6 +98,20 @@ public class Trip {
 		return (rs != -1); //if rs==-1, return false.
 	}
 
+	/**
+	 * Delete a trip for the specified ID
+	 * @param db
+	 * @param id: id to be deleted
+	 * @return
+	 */
+	public static boolean deleteTripByID(SQLiteDatabase db, long id){
+		
+		int rs = db.delete("trips", "id=?", new String[]{String.valueOf(id)});
+		
+		return (rs !=0 ); //if rs==0, return false.
+		
+	}
+
 
 	/**
 	 * get the max (i.e. latest) Trip ID from table trips

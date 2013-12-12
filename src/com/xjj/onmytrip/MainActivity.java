@@ -52,16 +52,17 @@ public class MainActivity extends FragmentActivity{
 		
 		//initialize variables
 		pref = PreferenceManager.getDefaultSharedPreferences(MainActivity.this);
-		currentTripName = pref.getString("currentTripName", "default_TripName");
+		//currentTripName = pref.getString("currentTripName", "default_TripName");
 		currentTripID = pref.getInt("currentTripID", -1);
 		currentUserID = pref.getString("currentUserID", "default_userID");
-		currentUserName = pref.getString("currentUserName", "default_userName");
+		//currentUserName = pref.getString("currentUserName", "default_userName");
 		
 		currentUser = User.findUserByID(dbm.getDb(), currentUserID);
 		currentTrip = Trip.findCurrentTripByUserID(dbm.getDb(), currentUserID);
 		
+		
 		textViewCurrentTripInfo = (TextView) findViewById(R.id.textViewCurrentTripInfo);
-		textViewCurrentTripInfo.setText("当前行程：" + currentTripName);
+		//textViewCurrentTripInfo.setText("当前行程：" + currentTripName);
 		
 		
 		buttonSearchHistory = (Button) findViewById(R.id.buttonSearchHistory);
@@ -185,8 +186,15 @@ public class MainActivity extends FragmentActivity{
 	}
 
 	private void updateView(){
+		String info = "";
+		
+		if(currentTrip != null)
+			info += "当前行程：" + currentTrip.getTripName() + "；\n";
+		
 		if(currentUser != null)
-		   textViewCurrentTripInfo.setText("当前行程：" + currentTripName + "；当前用户：" + currentUser.toString());
+			info += "当前用户：" + currentUser.toString();
+			
+		textViewCurrentTripInfo.setText(info);
 	}
 
 	@Override
@@ -195,6 +203,7 @@ public class MainActivity extends FragmentActivity{
 			AlertDialog.Builder ab=new AlertDialog.Builder(this);
 			  ab.setTitle("退出提示");//设定标题
 			  ab.setMessage("您真的要退出吗?");//设定内容
+			  ab.setIcon(android.R.drawable.ic_menu_close_clear_cancel);
 			  ab.setPositiveButton("确定", new DialogInterface.OnClickListener()
 			  {
 	         	@Override
@@ -208,7 +217,6 @@ public class MainActivity extends FragmentActivity{
 			  ab.show();
 			  return true;//已经处理了用户的按键这样就不会退出
 		}
-		
 		
 		return super.onKeyDown(keyCode, event);
 	}

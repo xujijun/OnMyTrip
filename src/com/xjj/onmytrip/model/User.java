@@ -64,6 +64,12 @@ public class User {
 	}
 	
 
+	public static boolean deleteUserByID(SQLiteDatabase db, long id){
+		
+		int rs = db.delete("users", "user_id=?", new String[]{String.valueOf(id)});
+		
+		return (rs !=0 ); //if rs==0, return false.
+	}
 
 	/**
 	 * Save the user's current trip ID into database

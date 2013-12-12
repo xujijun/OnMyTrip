@@ -2,25 +2,77 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
     tools:context=".FootprintListActivity" >
 
-    <TextView
-        android:id="@+id/ListViewHello"
+    <LinearLayout
+        android:id="@+id/LinearLayout1"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:background="#F0FFFF"
+        android:orientation="horizontal" >
+        
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/title_activity_footprint_list" />
+        android:orientation="vertical" >
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal" >
+
+            <TextView
+                android:layout_width="30dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="3dip" 
+                android:text="@string/id"/>
+
+            <TextView
+                android:layout_width="30dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="3dip" 
+                android:text="@string/trip"/>
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="90dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="3dip" 
+            android:text="@string/time"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical" >
+
+        <TextView
+            android:layout_width="75dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="3dip"
+            android:text="@string/lat"/>
+
+        <TextView
+            android:layout_width="75dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="3dip"
+            android:text="@string/lon"/>
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="3dip" 
+        android:text="@string/address"/>
     
-    
+    </LinearLayout>
+       
     <ListView
         android:id="@android:id/list"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
-        android:layout_below="@+id/ListViewHello" >
+        android:layout_below="@+id/LinearLayout1" >
     </ListView>
 
 </RelativeLayout>

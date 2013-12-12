@@ -20,23 +20,20 @@
                 android:id="@+id/footprint_id"
                 android:layout_width="30dp"
                 android:layout_height="wrap_content"
-                android:layout_margin="3dip"
-                android:text="id" />
+                android:layout_margin="3dip" />
 
             <TextView
                 android:id="@+id/trip_id"
                 android:layout_width="30dp"
                 android:layout_height="wrap_content"
-                android:layout_margin="3dip"
-                android:text="trip_id" />
+                android:layout_margin="3dip" />
         </LinearLayout>
 
         <TextView
             android:id="@+id/date_time"
             android:layout_width="90dp"
             android:layout_height="wrap_content"
-            android:layout_margin="3dip"
-            android:text="date_time" />
+            android:layout_margin="3dip" />
     </LinearLayout>
 
     <LinearLayout
@@ -47,24 +44,21 @@
 
         <TextView
             android:id="@+id/latitude"
-            android:layout_width="100dp"
+            android:layout_width="75dp"
             android:layout_height="wrap_content"
-            android:layout_margin="3dip"
-            android:text="latitude" />
+            android:layout_margin="3dip"/>
 
         <TextView
             android:id="@+id/longitude"
-            android:layout_width="100dp"
+            android:layout_width="75dp"
             android:layout_height="wrap_content"
-            android:layout_margin="3dip"
-            android:text="longitude" />
+            android:layout_margin="3dip"/>
     </LinearLayout>
 
     <TextView
         android:id="@+id/address"
         android:layout_width="150dp"
         android:layout_height="wrap_content"
-        android:layout_margin="3dip"
-        android:text="address" />
+        android:layout_margin="3dip" />
 
 </LinearLayout>

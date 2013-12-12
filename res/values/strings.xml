@@ -1,19 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">OnMyTrip</string>
+
     <string name="action_settings">设置</string>
+    <string name="address">地址</string>
+    <string name="app_name">OnMyTrip</string>
+    <string name="check_map">查看地图</string>
+    <string name="clear_footprints">清除足迹</string>
     <string name="current_trip_info">当前行程信息</string>
+    <string name="delete">删除</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="id">ID</string>
     <string name="location_record">位置记录</string>
+    <string name="lat">纬度</string>
+    <string name="lon">经度</string>
     <string name="map">地图</string>
     <string name="my_location">我的位置</string>
     <string name="new_trip">新行程</string>
     <string name="record">记录</string>
     <string name="search_history">查历史</string>
+    <string name="show_footprints">显示足迹</string>
+    <string name="time">时间</string>
     <string name="title_activity_map">地图</string>
     <string name="title_activity_trip_list">行程列表</string>
-    <string name="hello_world">Hello world!</string>
     <string name="title_activity_footprint_list">足迹列表</string>
-    <string name="title_activity_amap">AMapActivity</string>
+    <string name="title_activity_amap">高德地图</string>
+    <string name="trip">旅程</string>
+    <string name="trip_name">旅程名称</string>
+    <string name="trip_start_time">旅程开始时间</string>
+    <string name="user_id">用户ID</string>
 
 </resources>

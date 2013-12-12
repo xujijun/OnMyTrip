@@ -49,13 +49,18 @@ public class Footprint {
 		return (rs != -1); //if rs==-1, return false.
 	}
 	
+	public static boolean deleteFootprintByID(SQLiteDatabase db, long id){
+		int rs = db.delete("footprints", "id=?", new String[]{String.valueOf(id)});
+		return (rs !=0 ); //if rs==0, return false.
+	}
+	
 	public static Cursor getAllFootprints(SQLiteDatabase db, String tripID){
 		Cursor cursor;
 		
 		if(tripID == null)
-			 cursor = db.rawQuery("select id as _id, date_time, latitude, longitude, address, trip_id from footprints", null);  
+			 cursor = db.rawQuery("select id as _id, date_time, latitude, longitude, address, trip_id from footprints order by _id desc", null);  
 		else
-			cursor = db.rawQuery("select id as _id, date_time, latitude, longitude, address, trip_id from footprints where trip_id=?", new String[]{tripID});  
+			cursor = db.rawQuery("select id as _id, date_time, latitude, longitude, address, trip_id from footprints where trip_id=? order by _id desc", new String[]{tripID});  
 	    
 	 
 		 // 这里数据库不能关闭
