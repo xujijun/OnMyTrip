@@ -3,7 +3,6 @@ package com.xjj.onmytrip;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.database.Cursor;
 import android.graphics.Color;
 import android.location.Location;
 import android.os.Bundle;
@@ -20,21 +19,17 @@ import com.amap.api.location.LocationProviderProxy;
 import com.amap.api.maps.AMap;
 import com.amap.api.maps.LocationSource;
 import com.amap.api.maps.MapView;
-import com.amap.api.maps.AMap.OnMarkerClickListener;
 import com.amap.api.maps.model.BitmapDescriptorFactory;
-import com.amap.api.maps.model.LatLng;
-import com.amap.api.maps.model.Marker;
-import com.amap.api.maps.model.MarkerOptions;
 import com.amap.api.maps.model.MyLocationStyle;
-import com.xjj.onmytrip.R;
 import com.xjj.onmytrip.db.DBManager;
 import com.xjj.onmytrip.model.Footprint;
+import com.xjj.onmytrip.model.Trip;
 
 /**
  * AMapV2地图中简单介绍显示定位小蓝点
  */
 public class AMapActivity extends Activity implements LocationSource,
-		AMapLocationListener, OnMarkerClickListener {
+		AMapLocationListener {
 	private AMap aMap;
 	private MapView mapView;
 	private OnLocationChangedListener mListener;
@@ -43,9 +38,9 @@ public class AMapActivity extends Activity implements LocationSource,
 	TextView textViewMessage;
     private DBManager dbm;
 	SharedPreferences pref;
-	Cursor cursor;
 
 	int currentTripID;
+	Trip currentTrip;
 
 	
 	@Override
@@ -67,42 +62,11 @@ public class AMapActivity extends Activity implements LocationSource,
 		mapView.onCreate(savedInstanceState);// 此方法必须重写
 		init();
 		
-		
-		Intent intent = getIntent();  
-        int temp =(int) intent.getLongExtra("tripID", -1); //Note: long
-        if(temp!=-1){
-        	currentTripID = temp;
-        	cursor = Footprint.getAllFootprints(dbm.getDb(), String.valueOf(currentTripID));
-        	drawMarkers(cursor);
-        }
+        currentTrip = Trip.findTripByID(dbm.getDb(), currentTripID);
+
 	}
 
-	
-	public void drawMarkers(Cursor c) {
-		if(!c.moveToFirst()) return;
-		
-		do{
-			MarkerOptions mo = new MarkerOptions();
-			LatLng latlng = new LatLng(Float.parseFloat(c.getString(c.getColumnIndex("latitude"))), Float.parseFloat(c.getString(c.getColumnIndex("longitude"))));
-			mo.position(latlng);
-			mo.title(c.getString(c.getColumnIndex("date_time")) + "，" + c.getString(c.getColumnIndex("address")));
-			mo.perspective(true).draggable(true);
-			mo.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_CYAN));
-			
-			aMap.addMarker(mo);
-		}while(c.moveToNext());
-	}
-	
-	/**
-	 * 对marker标注点点击响应事件
-	 */
-	@Override
-	public boolean onMarkerClick(final Marker marker) {
-		//markerText.setText("你点击的是" + marker.getTitle());
-		Toast.makeText(getApplicationContext(), "你点击的是：" + marker.getTitle(), Toast.LENGTH_LONG).show();
-		return false;
-	}
-	
+
 	/**
 	 * 初始化AMap对象
 	 */
@@ -128,14 +92,13 @@ public class AMapActivity extends Activity implements LocationSource,
 		//aMap.setMyLocationStyle(myLocationStyle);
 		//aMap.setMyLocationRotateAngle(180);
 		
-		aMap.setLocationSource(this);// 设置定位监听
-		aMap.getUiSettings().setMyLocationButtonEnabled(true);// 设置默认定位按钮是否显示
-		aMap.setMyLocationEnabled(true);// 设置为true表示显示定位层并可触发定位，false表示隐藏定位层并不可触发定位，默认是false
+			aMap.setLocationSource(this);// 设置定位监听
+		    aMap.getUiSettings().setMyLocationButtonEnabled(true);// 设置默认定位按钮是否显示
+		    aMap.setMyLocationEnabled(true);// 设置为true表示显示定位层并可触发定位，false表示隐藏定位层并不可触发定位，默认是false
 		
 		aMap.getUiSettings().setScaleControlsEnabled(true);//设置比例尺
 		aMap.getUiSettings().setCompassEnabled(true);
 		
-		aMap.setOnMarkerClickListener(this); // 设置点击marker事件监听器
 	}
 
 	/**
@@ -204,6 +167,10 @@ public class AMapActivity extends Activity implements LocationSource,
 			float bearing = aMap.getCameraPosition().bearing;
 			aMap.setMyLocationRotateAngle(bearing);// 设置小蓝点旋转角度
 		}
+		
+		if(currentTrip!=null)
+			this.textViewMessage.setText("当前行程：" + currentTrip.getTripName() + "。");
+		this.textViewMessage.append("位置更新！");
 	}
 
 	/**
@@ -212,6 +179,7 @@ public class AMapActivity extends Activity implements LocationSource,
 	@Override
 	public void activate(OnLocationChangedListener listener) {
 		mListener = listener;
+		
 		if (mAMapLocationManager == null) {
 			mAMapLocationManager = LocationManagerProxy.getInstance(this);
 			/*
@@ -288,19 +256,6 @@ public class AMapActivity extends Activity implements LocationSource,
     		
     		return true;
     	
-    	case R.id.action_show_footprints:
-    		if (aMap != null && cursor != null) {
-				aMap.clear();
-				drawMarkers(cursor);
-    		}
-    	    return true;
-    	    
-    	case R.id.action_clear_footprints:
-    		if (aMap != null) {
-				aMap.clear();
-    		}
-    	    return true;
-    	    
     	case R.id.action_search_history:
     		startActivity(new Intent(AMapActivity.this, TripListActivity.class));
     	    return true;

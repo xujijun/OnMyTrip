@@ -74,6 +74,19 @@ public class Trip {
 		return t;
 	}
 	
+	public static Trip findTripByID(SQLiteDatabase db, int tripID){
+		Trip t = null;
+		Cursor c = db.rawQuery("SELECT * FROM trips where id=?", new String[]{String.valueOf(tripID)});
+		if(c.moveToNext()){
+			t = new Trip();
+			t.setId(tripID);
+			t.setTripName(c.getString(c.getColumnIndex("trip_name")));
+			t.setStartTime(c.getString(c.getColumnIndex("start_time")));
+			t.setUserID(c.getString(c.getColumnIndex("user_id")));
+		}	
+		return t;
+	}
+	
 	/**
 	 * insert this trip into the database table trips
 	 * @return true if succeeded, false if failed

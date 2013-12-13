@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-
     <string name="action_settings">设置</string>
     <string name="address">地址</string>
     <string name="app_name">OnMyTrip</string>
@@ -29,5 +28,6 @@
     <string name="trip_name">旅程名称</string>
     <string name="trip_start_time">旅程开始时间</string>
     <string name="user_id">用户ID</string>
+    <string name="title_activity_amap_markers">AMapMarkersActivity</string>
 
 </resources>

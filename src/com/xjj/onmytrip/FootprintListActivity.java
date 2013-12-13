@@ -127,7 +127,7 @@ public class FootprintListActivity extends ListActivity {
 //    		"Lat: " + String.valueOf(lat) + "Long: " + String.valueOf(lon), Toast.LENGTH_LONG).show();
     		return true;
     	case R.id.action_check_map:
-			Intent intent = new Intent(FootprintListActivity.this, AMapActivity.class);
+			Intent intent = new Intent(FootprintListActivity.this, AMapMarkersActivity.class);
 			intent.putExtra("tripID", currentTripID);  
 			
 			startActivity(intent);

@@ -32,7 +32,6 @@
         <meta-data
             android:name="com.google.android.maps.v2.API_KEY"
             android:value="AIzaSyALv1ZykGszFV0SXXzPUwP-dRpw0hQq2Mo" />
-        
         <meta-data
             android:name="com.amap.api.v2.apikey"
             android:value="1da6a62296f504febac70536cacce9b4" />
@@ -62,6 +61,10 @@
         <activity
             android:name="com.xjj.onmytrip.AMapActivity"
             android:label="@string/title_activity_amap" >
+        </activity>
+        <activity
+            android:name="com.xjj.onmytrip.AMapMarkersActivity"
+            android:label="@string/title_activity_amap_markers" >
         </activity>
     </application>
 
