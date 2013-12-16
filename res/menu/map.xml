@@ -10,5 +10,9 @@
     <item android:id="@+id/action_record_my_location" android:title="@string/record" android:showAsAction="ifRoom"></item>
     
     <item android:id="@+id/action_search_history" android:title="@string/search_history" android:showAsAction="never"></item>
+    
+    <item android:id="@+id/action_map_type_normal" android:title="@string/map_type_normal" android:showAsAction="never"></item>
+    <item android:id="@+id/action_map_type_satellite" android:title="@string/map_type_satellite" android:showAsAction="never"></item>
+    <item android:id="@+id/action_map_type_traffic" android:title="@string/map_type_traffic" android:showAsAction="never"></item>
 
 </menu>

@@ -1,5 +1,12 @@
 package com.xjj.onmytrip;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -7,17 +14,21 @@ import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.Bitmap.CompressFormat;
 import android.os.Bundle;
+import android.os.Environment;
 import android.text.TextPaint;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.amap.api.maps.AMap;
 import com.amap.api.maps.AMap.InfoWindowAdapter;
 import com.amap.api.maps.AMap.OnInfoWindowClickListener;
 import com.amap.api.maps.AMap.OnMapLoadedListener;
+import com.amap.api.maps.AMap.OnMapScreenShotListener;
 import com.amap.api.maps.AMap.OnMarkerClickListener;
 import com.amap.api.maps.CameraUpdateFactory;
 import com.amap.api.maps.MapView;
@@ -30,7 +41,10 @@ import com.amap.api.maps.model.MarkerOptions;
 import com.xjj.onmytrip.model.Footprint;
 import com.xjj.onmytrip.model.Trip;
 
-public class AMapMarkersActivity extends Activity implements OnMapLoadedListener, OnMarkerClickListener, OnInfoWindowClickListener, InfoWindowAdapter {
+public class AMapMarkersActivity extends Activity implements
+	OnMapLoadedListener, OnMarkerClickListener,
+	OnInfoWindowClickListener, InfoWindowAdapter,
+	OnMapScreenShotListener {
 	
 	private AMap aMap;
 	private MapView mapView;
@@ -255,6 +269,11 @@ public class AMapMarkersActivity extends Activity implements OnMapLoadedListener
 
 			}
 			break;
+			
+		case R.id.action_screen_shot:
+			aMap.getMapScreenShot(this);
+			break;
+			
 		default:
 			break;
 		}
@@ -273,6 +292,40 @@ public class AMapMarkersActivity extends Activity implements OnMapLoadedListener
 		v.setText(marker.getTitle() + "\n" + marker.getSnippet());
 		return v;
 		//return null;
+	}
+
+	@Override
+	public void onMapScreenShot(Bitmap bitmap) {
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
+		try {
+            String dir = Environment.getExternalStorageDirectory().toString() + "/onMyTrip/";
+            File mFolder = new File(dir);
+            if (!mFolder.exists()) {
+                mFolder.mkdir();
+            }
+			
+			FileOutputStream fos = new FileOutputStream(dir + currentTrip.getTripName()
+							+ sdf.format(new Date()) + ".png");
+			boolean b = bitmap.compress(CompressFormat.PNG, 100, fos);
+			try {
+				fos.flush();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			try {
+				fos.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			if (b)
+				Toast.makeText(this, "截屏成功，保存在此路径：/onMyTrip/", Toast.LENGTH_LONG).show();
+			else
+				Toast.makeText(this, "截屏失败", Toast.LENGTH_LONG).show();
+
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
+		
 	}
 	
 	

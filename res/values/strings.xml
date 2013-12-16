@@ -14,10 +14,14 @@
     <string name="lat">纬度</string>
     <string name="lon">经度</string>
     <string name="map">地图</string>
+    <string name="map_type_normal">普通地图</string>
+    <string name="map_type_satellite">卫星地图</string>
+    <string name="map_type_traffic">交通状况</string>
     <string name="my_location">我的位置</string>
     <string name="new_trip">新行程</string>
     <string name="record">记录</string>
     <string name="search_history">查历史</string>
+    <string name="screen_shot">截图</string>
     <string name="show_footprints">显示足迹</string>
     <string name="time">时间</string>
     <string name="title_activity_map">地图</string>
@@ -28,6 +32,6 @@
     <string name="trip_name">旅程名称</string>
     <string name="trip_start_time">旅程开始时间</string>
     <string name="user_id">用户ID</string>
-    <string name="title_activity_amap_markers">AMapMarkersActivity</string>
+    <string name="title_activity_amap_markers">地图上的足迹</string>
 
 </resources>

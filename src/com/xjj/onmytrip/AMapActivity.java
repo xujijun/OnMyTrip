@@ -21,6 +21,7 @@ import com.amap.api.maps.LocationSource;
 import com.amap.api.maps.MapView;
 import com.amap.api.maps.model.BitmapDescriptorFactory;
 import com.amap.api.maps.model.MyLocationStyle;
+import com.amap.api.maps.model.MyTrafficStyle;
 import com.xjj.onmytrip.db.DBManager;
 import com.xjj.onmytrip.model.Footprint;
 import com.xjj.onmytrip.model.Trip;
@@ -72,6 +73,13 @@ public class AMapActivity extends Activity implements LocationSource,
 			aMap = mapView.getMap();
 			setUpMap();
 		}
+		
+		MyTrafficStyle myTrafficStyle = new MyTrafficStyle();
+		myTrafficStyle.setSeriousCongestedColor(Color.rgb(252, 90, 80));
+		myTrafficStyle.setCongestedColor(Color.rgb(248, 184, 71));
+		myTrafficStyle.setSlowColor(Color.rgb(242, 242, 236));
+		myTrafficStyle.setSmoothColor(Color.rgb(38, 254, 31));
+		aMap.setMyTrafficStyle(myTrafficStyle);
 	}
 
 	/**
@@ -217,7 +225,7 @@ public class AMapActivity extends Activity implements LocationSource,
 //    		double lat = l.getLatitude();
 //    		double lon = l.getLongitude();
 //    		Toast.makeText(this, "Lat: " + String.valueOf(lat) + "Long: " + String.valueOf(lon), Toast.LENGTH_LONG).show();
-    		return true;
+    		break;
     		
     	case R.id.action_my_location:	//显示我的位置
     		if (aMap!=null) {
@@ -226,7 +234,7 @@ public class AMapActivity extends Activity implements LocationSource,
                 textViewMessage.setText(msg);
             }
     		
-    		return true;
+    		break;
     		
     	case R.id.action_record_my_location: //记录我的位置
     		if (aMap!=null) {
@@ -237,7 +245,7 @@ public class AMapActivity extends Activity implements LocationSource,
     				String msg = "定位尚未成功，请稍后再试。" ;
                     Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_LONG).show();
                     textViewMessage.setText(msg);
-                    return true;
+                    break;
     			}
     			
     			fp.setLocation(myLoc);
@@ -251,15 +259,33 @@ public class AMapActivity extends Activity implements LocationSource,
     			}
     		}
     		
-    		return true;
+    		break;
     	
     	case R.id.action_search_history:
     		startActivity(new Intent(AMapActivity.this, TripListActivity.class));
-    	    return true;
+    		break;
     	    
+    	case R.id.action_map_type_normal:
+    		if(aMap != null)
+    			aMap.setMapType(AMap.MAP_TYPE_NORMAL);// 矢量地图模式
+    		break;
+    	 
+    	case R.id.action_map_type_satellite:
+    		if(aMap != null)
+    			aMap.setMapType(AMap.MAP_TYPE_SATELLITE);// 卫星地图模式
+    		break;
+    		
+    	case R.id.action_map_type_traffic:
+    		if(aMap != null)
+    			aMap.setTrafficEnabled(!aMap.isTrafficEnabled());// 显示实时交通状况
+    		break;
+    		
     	default:
-    		return super.onMenuItemSelected(featureId, item);
+    		//Do Nothing;
+    		break;
     	}
+		return super.onMenuItemSelected(featureId, item);
+
 	}
 	
 }
