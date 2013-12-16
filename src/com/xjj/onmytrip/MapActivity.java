@@ -32,7 +32,6 @@ public class MapActivity extends FragmentActivity
     OnMyLocationButtonClickListener {
 
 	TextView textViewMessage;
-    private DBManager dbm;
 	SharedPreferences pref;
 
 	int currentTripID;
@@ -59,8 +58,6 @@ public class MapActivity extends FragmentActivity
 		
 		textViewMessage = (TextView) findViewById(R.id.textViewMessage);
 		
-		dbm = new DBManager(MapActivity.this);
-
 		pref = PreferenceManager.getDefaultSharedPreferences(MapActivity.this);
 		currentTripID = pref.getInt("currentTripID", -1);
 
@@ -113,11 +110,11 @@ public class MapActivity extends FragmentActivity
     		
     	case R.id.action_record_my_location: //记录我的位置
     		if (mLocationClient != null && mLocationClient.isConnected()) {
-    			Footprint fp = new Footprint();
+    			Footprint fp = new Footprint(this);
     			fp.setLocation(mLocationClient.getLastLocation());
     			fp.setTripID(currentTripID);
     			
-    			if(fp.saveFootprint(dbm.getDb())){
+    			if(fp.saveFootprint()){
     				Toast.makeText(getApplicationContext(), "成功保存了当前位置。", Toast.LENGTH_LONG).show();
     			}else{
     				Toast.makeText(getApplicationContext(), "当前位置保存失败！", Toast.LENGTH_LONG).show();

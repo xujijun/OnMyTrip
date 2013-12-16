@@ -36,7 +36,6 @@ public class AMapActivity extends Activity implements LocationSource,
 	private LocationManagerProxy mAMapLocationManager;
 
 	TextView textViewMessage;
-    private DBManager dbm;
 	SharedPreferences pref;
 
 	int currentTripID;
@@ -53,8 +52,6 @@ public class AMapActivity extends Activity implements LocationSource,
 		textViewMessage = (TextView) findViewById(R.id.textViewAMapMessage);
 		textViewMessage.setText("高德地图");
 		
-		dbm = new DBManager(AMapActivity.this);
-
 		pref = PreferenceManager.getDefaultSharedPreferences(AMapActivity.this);
 		currentTripID = pref.getInt("currentTripID", -1);
 		
@@ -62,7 +59,7 @@ public class AMapActivity extends Activity implements LocationSource,
 		mapView.onCreate(savedInstanceState);// 此方法必须重写
 		init();
 		
-        currentTrip = Trip.findTripByID(dbm.getDb(), currentTripID);
+        currentTrip = Trip.findTripByID(this, currentTripID);
 
 	}
 
@@ -89,7 +86,7 @@ public class AMapActivity extends Activity implements LocationSource,
 		// myLocationStyle.radiusFillColor(color)//设置圆形的填充颜色
 		// myLocationStyle.anchor(int,int)//设置小蓝点的锚点
 		myLocationStyle.strokeWidth(5);// 设置圆形的边框粗细
-		//aMap.setMyLocationStyle(myLocationStyle);
+		aMap.setMyLocationStyle(myLocationStyle);
 		//aMap.setMyLocationRotateAngle(180);
 		
 			aMap.setLocationSource(this);// 设置定位监听
@@ -233,7 +230,7 @@ public class AMapActivity extends Activity implements LocationSource,
     		
     	case R.id.action_record_my_location: //记录我的位置
     		if (aMap!=null) {
-    			Footprint fp = new Footprint();
+    			Footprint fp = new Footprint(this);
     			Location myLoc = aMap.getMyLocation();
     			
     			if(myLoc == null){
@@ -247,7 +244,7 @@ public class AMapActivity extends Activity implements LocationSource,
     			fp.setTripID(currentTripID);
     			fp.setAddress(myLoc.getExtras().getString("desc"));
     			
-    			if(fp.saveFootprint(dbm.getDb())){
+    			if(fp.saveFootprint()){
     				Toast.makeText(getApplicationContext(), "成功保存了当前位置。"+ myLoc, Toast.LENGTH_LONG).show();
     			}else{
     				Toast.makeText(getApplicationContext(), "当前位置保存失败！", Toast.LENGTH_LONG).show();

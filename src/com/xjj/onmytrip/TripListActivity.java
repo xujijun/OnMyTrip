@@ -15,12 +15,10 @@ import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
 import android.widget.Toast;
 
-import com.xjj.onmytrip.db.DBManager;
 import com.xjj.onmytrip.model.Trip;
 
 public class TripListActivity extends ListActivity{
 
-    private DBManager dbm;
     private SimpleCursorAdapter mAdapter;
     private ListView lv;  
     
@@ -32,8 +30,7 @@ public class TripListActivity extends ListActivity{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_trip_list);
 		
-		dbm = new DBManager(TripListActivity.this);
-		cursor = Trip.getAllTrips(dbm.getDb(), null);;
+		cursor = Trip.getAllTrips(this, null);
 		
 		if(cursor == null)
 			return;
@@ -82,7 +79,7 @@ public class TripListActivity extends ListActivity{
 					@SuppressWarnings("deprecation")
 					@Override
 					public void onClick(DialogInterface arg0, int arg1) {
-						if(Trip.deleteTripByID(dbm.getDb(), selectedID)){
+						if(Trip.deleteTripByID(TripListActivity.this, selectedID)){
 							Toast.makeText(getApplicationContext(), "行程" + String.valueOf(selectedID) + "已经被删除。", Toast.LENGTH_LONG).show();
 							cursor.requery();
 							mAdapter.notifyDataSetChanged();

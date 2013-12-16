@@ -16,12 +16,10 @@ import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
 import android.widget.Toast;
 
-import com.xjj.onmytrip.db.DBManager;
 import com.xjj.onmytrip.model.Footprint;
 
 public class FootprintListActivity extends ListActivity {
 
-    private DBManager dbm;
     private SimpleCursorAdapter mAdapter;
     private ListView lv;
     
@@ -37,8 +35,7 @@ public class FootprintListActivity extends ListActivity {
 		Intent intent = getIntent();  
         currentTripID = intent.getLongExtra("tripID", -1); //Note: long
 		
-		dbm = new DBManager(FootprintListActivity.this);
-		cursor = Footprint.getAllFootprints(dbm.getDb(), String.valueOf(currentTripID));
+		cursor = Footprint.getAllFootprints(this, String.valueOf(currentTripID));
 		
 		if(cursor == null)
 			return;
@@ -92,7 +89,7 @@ public class FootprintListActivity extends ListActivity {
 					@SuppressWarnings("deprecation")
 					@Override
 					public void onClick(DialogInterface arg0, int arg1) {
-						if(Footprint.deleteFootprintByID(dbm.getDb(), selectedID)){
+						if(Footprint.deleteFootprintByID(FootprintListActivity.this, selectedID)){
 							Toast.makeText(getApplicationContext(), "足迹" + String.valueOf(selectedID) + "已经被删除。", Toast.LENGTH_LONG).show();
 							cursor.requery();
 							mAdapter.notifyDataSetChanged();

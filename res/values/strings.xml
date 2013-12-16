@@ -4,7 +4,7 @@
     <string name="action_settings">设置</string>
     <string name="address">地址</string>
     <string name="app_name">OnMyTrip</string>
-    <string name="check_map">查看地图</string>
+    <string name="check_map">地图中看足迹</string>
     <string name="clear_footprints">清除足迹</string>
     <string name="current_trip_info">当前行程信息</string>
     <string name="delete">删除</string>

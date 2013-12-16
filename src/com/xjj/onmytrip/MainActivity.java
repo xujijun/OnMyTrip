@@ -18,7 +18,6 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.xjj.onmytrip.db.DBManager;
 import com.xjj.onmytrip.model.Trip;
 import com.xjj.onmytrip.model.User;
 
@@ -37,7 +36,6 @@ public class MainActivity extends FragmentActivity{
 	User currentUser;
 	Trip currentTrip;
 	
-	DBManager dbm;
 	SharedPreferences pref;
 	
 	
@@ -46,10 +44,6 @@ public class MainActivity extends FragmentActivity{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 
-		
-		//initialize database access
-		dbm = new DBManager(MainActivity.this);
-		
 		//initialize variables
 		pref = PreferenceManager.getDefaultSharedPreferences(MainActivity.this);
 		//currentTripName = pref.getString("currentTripName", "default_TripName");
@@ -57,8 +51,8 @@ public class MainActivity extends FragmentActivity{
 		currentUserID = pref.getString("currentUserID", "default_userID");
 		//currentUserName = pref.getString("currentUserName", "default_userName");
 		
-		currentUser = User.findUserByID(dbm.getDb(), currentUserID);
-		currentTrip = Trip.findCurrentTripByUserID(dbm.getDb(), currentUserID);
+		currentUser = User.findUserByID(this, currentUserID);
+		currentTrip = Trip.findCurrentTripByUserID(this, currentUserID);
 		
 		
 		textViewCurrentTripInfo = (TextView) findViewById(R.id.textViewCurrentTripInfo);
@@ -126,6 +120,14 @@ public class MainActivity extends FragmentActivity{
     	case R.id.action_new_trip:  //Open a dialog to enter new trip name
     		newTripNameDialog();
     		return true;
+    		
+    	case R.id.action_check_map:
+			Intent intent = new Intent(MainActivity.this, AMapMarkersActivity.class);
+			intent.putExtra("tripID", (long)currentTripID);  
+			
+			startActivity(intent);
+    	    return true;
+    	    
     	default:
     		return super.onMenuItemSelected(featureId, item);
     	}
@@ -147,20 +149,21 @@ public class MainActivity extends FragmentActivity{
 				String newTripName = EditTextNewTripName.getText().toString();
 
 				//initialize new trip info
-				Trip t = new Trip();
+				Trip t = new Trip(MainActivity.this);
 				t.setTripName(newTripName);
 				t.setUserID(currentUserID);
 
 
 				//Save into database
-				if(t.saveTrip(dbm.getDb())){
-					int id = Trip.getMaxTripID(dbm.getDb()); //if insert into db succeeded, retrieve the new trip id to be used.
+				if(t.saveTrip()){
+					int id = Trip.getMaxTripID(MainActivity.this); //if insert into db succeeded, retrieve the new trip id to be used.
 					if (id !=-1){
 						t.setId(id);
 						//currentTrip.cloneFrom(t);
 						currentTrip = t;
 						
 						currentTripName = newTripName;
+						currentTripID = id;
 						
 						//Save into preference
 						Editor editor = pref.edit();
@@ -168,7 +171,7 @@ public class MainActivity extends FragmentActivity{
 						editor.commit();
 						
 						currentUser.setCurrentTripID(currentTrip.getId());
-						currentUser.saveCurrentTripID(dbm.getDb()); //update the current user's current trip id
+						currentUser.saveCurrentTripID(); //update the current user's current trip id
 						
 						updateView();
 					}else{

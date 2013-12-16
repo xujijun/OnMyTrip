@@ -4,9 +4,11 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import android.content.ContentValues;
+import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
+import com.xjj.onmytrip.db.DBHelper;
 import com.xjj.onmytrip.util.MD5;
 
 public class User {
@@ -17,11 +19,13 @@ public class User {
 	private String registerDate;
 	int     currentTripID;
 	
+	private static SQLiteDatabase db;
 	
 	/**
 	 * Set the register date as current time when a user is created
 	 */
-	public User() {
+	public User(Context context) {
+		db = DBHelper.getDB(context);
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");  
 		registerDate = sdf.format(new Date());
 	}
@@ -39,7 +43,7 @@ public class User {
 	 * Insert this user into database table users
 	 * @return true: 成功, false: 失败
 	 */
-	public boolean saveUser(SQLiteDatabase db){
+	public boolean saveUser(){
 		//db.execSQL("insert into users values(?, ?, ?, ?, null)", new Object[]{u.getUserID(), u.getPassword(), u.getNickName(), u.getRegisterDate()});
 		
         //ContentValues以键值对的形式存放数据  
@@ -64,7 +68,8 @@ public class User {
 	}
 	
 
-	public static boolean deleteUserByID(SQLiteDatabase db, long id){
+	public static boolean deleteUserByID(Context context, long id){
+		db = DBHelper.getDB(context);
 		
 		int rs = db.delete("users", "user_id=?", new String[]{String.valueOf(id)});
 		
@@ -75,7 +80,7 @@ public class User {
 	 * Save the user's current trip ID into database
 	 * @return true if update succeeded, false if failed
 	 */
-	public boolean saveCurrentTripID(SQLiteDatabase db){
+	public boolean saveCurrentTripID(){
         
 		//ContentValues以键值对的形式存放数据  
         ContentValues values = new ContentValues();  
@@ -101,11 +106,12 @@ public class User {
 	 * @param userID
 	 * @return User
 	 */
-	public static User findUserByID(SQLiteDatabase db, String userID){
+	public static User findUserByID(Context context, String userID){
+		db = DBHelper.getDB(context);
 		User u = null;
 		Cursor c = db.rawQuery("SELECT * FROM users where user_id=?", new String[]{userID});
 		if(c.moveToNext()){
-			u = new User();
+			u = new User(context);
 			u.setUserID(userID);
 			u.setPassword(c.getString(c.getColumnIndex("password")));
 			u.setNickName(c.getString(c.getColumnIndex("nick_name")));

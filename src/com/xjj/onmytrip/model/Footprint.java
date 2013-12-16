@@ -3,7 +3,10 @@ package com.xjj.onmytrip.model;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import com.xjj.onmytrip.db.DBHelper;
+
 import android.content.ContentValues;
+import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.location.Location;
@@ -18,16 +21,20 @@ public class Footprint {
 	private String address;
 	private int tripID;
 	
+	private static SQLiteDatabase db;
+	
 	/**
 	 * Set the dateTime as current time when a new footprint is created.
 	 */
-	public Footprint() {
+	public Footprint(Context context) {
+		db = DBHelper.getDB(context);
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");  
 		dateTime = sdf.format(new Date());
 	}
 
-	public boolean saveFootprint(SQLiteDatabase db){
-        //ContentValues以键值对的形式存放数据  
+	//public boolean saveFootprint(SQLiteDatabase db){
+	public boolean saveFootprint(){
+		//ContentValues以键值对的形式存放数据  
         ContentValues values = new ContentValues();  
         //ListViewFootprintsListViewFootprints.put("id", id);  
         values.put("date_time", dateTime);
@@ -49,12 +56,14 @@ public class Footprint {
 		return (rs != -1); //if rs==-1, return false.
 	}
 	
-	public static boolean deleteFootprintByID(SQLiteDatabase db, long id){
+	public static boolean deleteFootprintByID(Context context, long id){
+		db = DBHelper.getDB(context);
 		int rs = db.delete("footprints", "id=?", new String[]{String.valueOf(id)});
 		return (rs !=0 ); //if rs==0, return false.
 	}
 	
-	public static Cursor getAllFootprints(SQLiteDatabase db, String tripID){
+	public static Cursor getAllFootprints(Context context, String tripID){
+		db = DBHelper.getDB(context);
 		Cursor cursor;
 		
 		if(tripID == null)
